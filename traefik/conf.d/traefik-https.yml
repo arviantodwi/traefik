@@ -36,7 +36,3 @@ tls:
       defaultCertificate:
         certFile: /etc/traefik/certs/localhost.pem
         keyFile: /etc/traefik/certs/localhost-key.pem
-
-  certificates:
-    - certFile: /etc/traefik/certs/*.invois.me/invois.me+1.pem
-      keyFile: /etc/traefik/certs/*.invois.me/invois.me+1-key.pem
