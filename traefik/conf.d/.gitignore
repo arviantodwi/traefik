@@ -1,0 +1,4 @@
+*
+!.gitignore
+!traefik-*.yml
+!whoami-example.yml

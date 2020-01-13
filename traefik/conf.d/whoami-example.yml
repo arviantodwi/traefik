@@ -1,0 +1,27 @@
+#######################################
+# HTTP config
+#######################################
+http:
+  #######################################
+  # HTTP routers config
+  #######################################
+  routers:
+    whoami:
+      entryPoints:
+        - https
+      rule: 'Host(`localhost`) && Path(`/`)'
+      service: whoami-lb
+      tls: {}
+
+  #######################################
+  # HTTP services config
+  #######################################
+  services:
+    whoami-lb:
+      loadBalancer:
+        servers:
+          - url: http://whoami
+  #######################################
+  # HTTP middlewares config
+  #######################################
+  # middlewares:

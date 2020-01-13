@@ -1,0 +1,24 @@
+log:
+  filePath: '/var/log/traefik/traefik.log'
+  level: ERROR # DEBUG, PANIC, FATAL, ERROR, WARN, or INFO
+
+accessLog:
+  filePath: '/var/log/traefik/traefik-access.log'
+  fields:
+    names:
+      StartUTC: drop
+
+entryPoints:
+  http:
+    address: ':80'
+  https:
+    address: ':443'
+
+providers:
+  file:
+    directory: '/etc/traefik/conf.d'
+    watch: true
+
+api:
+  insecure: false
+  dashboard: true

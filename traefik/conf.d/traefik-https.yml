@@ -1,0 +1,42 @@
+http:
+  routers:
+    http-catch:
+      entryPoints:
+        - http
+      rule: "HostRegexp(`{host:(www\\.)?.+}`)"
+      service: secure-lb
+      middlewares:
+        - secure-redirect
+
+    https-www-catch:
+      entryPoints:
+        - https
+      rule: "HostRegexp(`{host:(www\\.).+}`)"
+      service: secure-lb
+      middlewares:
+        - secure-redirect
+      tls: {}
+
+  services:
+    secure-lb:
+      loadBalancer:
+        servers:
+          - url: '0.0.0.0'
+
+  middlewares:
+    secure-redirect:
+      redirectRegex:
+        regex: "^https?://(?:www\\.)?(.+)"
+        replacement: 'https://${1}'
+        permanent: true
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /etc/traefik/certs/localhost.pem
+        keyFile: /etc/traefik/certs/localhost-key.pem
+
+  certificates:
+    - certFile: /etc/traefik/certs/*.invois.me/invois.me+1.pem
+      keyFile: /etc/traefik/certs/*.invois.me/invois.me+1-key.pem

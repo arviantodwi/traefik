@@ -1,0 +1,28 @@
+http:
+  routers:
+    traefik-dashboard:
+      entryPoints:
+        - https
+      rule: 'Host(`localhost`) && (PathPrefix(`/traefik/dashboard`) || PathPrefix(`/api`))'
+      service: api@internal
+      middlewares:
+        - traefik-dashboard-auth
+        - traefik-dashboard-redirect-trailing
+        - traefik-dashboard-strip-prefix
+      tls: {}
+
+  middlewares:
+    traefik-dashboard-auth:
+      basicAuth:
+        users:
+          - 'arviantodwi:$2y$12$F8S5Rs45tfvoElhKvkX1eeyND2iTlf4/TbpNWbmpRqAcV1ZA/jDKy'
+        removeHeader: true
+
+    traefik-dashboard-strip-prefix:
+      stripPrefix:
+        prefixes:
+          - /traefik
+    traefik-dashboard-redirect-trailing:
+      redirectRegex:
+        regex: '^(.+)(?:/dashboard)$'
+        replacement: '${1}/dashboard/#/'

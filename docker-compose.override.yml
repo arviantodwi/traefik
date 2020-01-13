@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  traefik:
+    build:
+      target: ${BUILD_TARGET}
+    depends_on:
+      - whoami
+    volumes:
+      - ./logs:/var/log/traefik
+      - /usr/share/zoneinfo:/usr/share/zoneinfo:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      TZ: ${TIMEZONE}
+
+  whoami:
+    image: containous/whoami
+    networks:
+      - traefik
